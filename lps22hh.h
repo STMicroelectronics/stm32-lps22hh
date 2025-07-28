@@ -56,7 +56,7 @@ typedef struct
 {
   LPS22HH_Init_Func          Init;
   LPS22HH_DeInit_Func        DeInit;
-  uint32_t                   BusType; /*0 means I2C, 1 means SPI 4-Wires, 2 means SPI-3-Wires */
+  uint32_t                   BusType; /*0 means I2C, 1 means SPI 4-Wires, 2 means SPI-3-Wires, 3 means I3C */
   uint8_t                    Address;
   LPS22HH_WriteReg_Func      WriteReg;
   LPS22HH_ReadReg_Func       ReadReg;
@@ -79,10 +79,12 @@ typedef struct
   uint8_t Temperature;
   uint8_t Pressure;
   uint8_t Humidity;
+  uint8_t Gas;
   uint8_t LowPower;
   float   HumMaxOdr;
   float   TempMaxOdr;
   float   PressMaxOdr;
+  float   GasMaxOdr;
 } LPS22HH_Capabilities_t;
 
 typedef struct
@@ -159,6 +161,7 @@ typedef union
 #define LPS22HH_I2C_BUS          0U
 #define LPS22HH_SPI_4WIRES_BUS   1U
 #define LPS22HH_SPI_3WIRES_BUS   2U
+#define LPS22HH_I3C_BUS          3U
 
 #define LPS22HH_FIFO_FULL        (uint8_t)0x20
 
@@ -197,9 +200,6 @@ int32_t LPS22HH_TEMP_Get_DRDY_Status(LPS22HH_Object_t *pObj, uint8_t *Status);
 
 int32_t LPS22HH_Read_Reg(LPS22HH_Object_t *pObj, uint8_t reg, uint8_t *Data);
 int32_t LPS22HH_Write_Reg(LPS22HH_Object_t *pObj, uint8_t reg, uint8_t Data);
-
-int32_t LPS22HH_Get_Press(LPS22HH_Object_t *pObj, float *Data);
-int32_t LPS22HH_Get_Temp(LPS22HH_Object_t *pObj, float *Data);
 
 int32_t LPS22HH_FIFO_Get_Data(LPS22HH_Object_t *pObj, float *Press, float *Temp);
 int32_t LPS22HH_FIFO_Get_FTh_Status(LPS22HH_Object_t *pObj, uint8_t *Status);
